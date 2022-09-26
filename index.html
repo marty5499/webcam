@@ -4,7 +4,7 @@ Predict: <div id="out"></div>
 <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js"></script>
 <script type="text/javascript">
 
-    let labels, model, webcam, url = 'https://filebrowser.webduino.tw/filebrowser/api/public/dl/5woelRS1/';
+    let labels, model, webcam, url = './YOW/';
 
     ((async function () {
         model = await tf.loadLayersModel(url + 'model.json');
