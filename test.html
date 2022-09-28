@@ -1,0 +1,52 @@
+<div id="webcam-container"></div>
+Predict: <div id="out"></div>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.2.0/dist/tf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js"></script>
+<script type="text/javascript">
+
+    let labels, model, webcam, url = './YOW/';
+    url = 'https://vision-api.webduino.io/ml_models/42723479-db68-fa45-4375-aa447b6e5a89/';
+    ((async function () {
+        model = await tf.loadLayersModel(url + 'model.json');
+        labels = await fetch(url + 'project.tm.labels.txt')
+            .then(response => response.text());
+        labels = JSON.parse(labels.match(/\[.*\]/g));
+        model.summary();
+        init();
+    })());
+
+    async function init() {
+        webcam = new tmImage.Webcam(224, 224, flip = false);
+        await webcam.setup();
+        document.getElementById("webcam-container").appendChild(webcam.canvas);
+        await webcam.play();
+        window.requestAnimationFrame(loop);
+    }
+
+    async function loop() {
+        webcam.update();
+        prediction();
+        window.requestAnimationFrame(loop);
+    }
+
+    async function prediction() {
+        const resultTensor = tf.tidy(() => {
+            const uploadImage = tf.browser.fromPixels(webcam.canvas);
+            const batchedImage = uploadImage.expandDims(0);
+            const activation = batchedImage.toFloat().div(tf.scalar(127)).sub(tf.scalar(1));
+            const predictions = model.predict(activation);
+            return predictions.as1D();
+        });
+
+        const classTensor = resultTensor.argMax();
+        const confidenceTensor = resultTensor.max();
+        var confidence = (await confidenceTensor.data())[0];
+        confidence = parseInt(confidence * 10000) / 100.0;
+        var idx = (await classTensor.data())[0];
+        out.innerHTML = labels[idx] + ' , ' + confidence + "%";
+
+        classTensor.dispose();
+        confidenceTensor.dispose();
+        resultTensor.dispose();
+    }
+</script>

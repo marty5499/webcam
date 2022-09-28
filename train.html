@@ -1,0 +1,87 @@
+<html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.0/socket.io.min.js"></script>
+
+<h1>模型訓練測試</h1>
+<button id='btn' onclick="trainModel()" disabled>Train</button>
+<br>
+<h3>WebSocket: <span id='msg'></span></h3>
+<h2><span id='progress'></span></h2>
+
+<script>
+    var startTime, endTime;
+    var notifyEmail = 'marty@kingkit101.com';
+    let socket = new WebSocket("wss://kk.nodered.vip/api/ws/recvMsg");
+    let postData = {
+        "name": "OyW",
+        "modelType": "image",
+        "shared": false,
+        "classes": [
+            {
+                "name": "O",
+                "datasets": [
+                    "0610a3f0-3ce3-11ed-af3e-d979f9dad077"
+                ]
+            },
+            {
+                "name": "y",
+                "datasets": [
+                    "15816e00-3ce3-11ed-8920-354ab3c48fcd"
+                ]
+            },
+            {
+                "name": "W",
+                "datasets": [
+                    "eb6bcf20-3ce2-11ed-926e-fbab9f69daec"
+                ]
+            }
+        ],
+        "hyperParameters": {
+            "learningRate": 0.0002,
+            "denseUnits": 50,
+            "batchSizeFraction": 0.2,
+            "epochs": 10
+        },
+        "notifyEmail": notifyEmail
+    };
+
+    socket.onopen = function (e) {
+        btn.disabled = false;
+        msg.innerHTML = 'Connected.';
+    }
+
+    socket.onmessage = function (event) {
+        var info = JSON.parse(event.data);
+        if (info.notifyEmail == notifyEmail) {
+            if (info.msg == '完成訓練') {
+                endTime = new Date().getTime();
+                var spendTime = parseInt((endTime - startTime) / 1000);
+                progress.innerHTML = info.msg + " , 花費：" + spendTime + "秒";
+            } else {
+                progress.innerHTML = info.msg;
+            }
+        }
+    }
+
+    function trainModel() {
+        startTime = new Date().getTime();
+        //btn.disabled = true;
+
+        const url = `https://kk.nodered.vip/api/models?hashkey=874389e56b2af78523547989eba72d43`
+        let headers = {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+        }
+
+        fetch(url, {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify(postData)
+        })
+            .then(response => response.json())
+            .then(json => console.log(json.job));
+    }
+
+
+</script>
+
+</html>
