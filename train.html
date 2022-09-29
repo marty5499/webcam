@@ -5,11 +5,12 @@
 <button id='btn' onclick="trainModel()" disabled style="font-size:2em">Train</button>
 <h3>
     <div><br>
-    JobName: <span id='jobHome'> 尚未指定</span><br>
-    JobState: <span id='jobState'> --</span>
-</div>
+        JobName: <span id='jobHome'> 尚未指定</span><br>
+        JobState: <span id='jobState'> --</span>
+    </div>
 </h3>
 <h3>WebSocket: <span id='msg'> </span></h3>
+<h3><span id='errMsg' style="color:red">zz</span></h3>
 <h2><span id='progress'></span></h2>
 
 <script>
@@ -57,7 +58,10 @@
     socket.onmessage = function (event) {
         var info = JSON.parse(event.data);
         if (info.notifyEmail == notifyEmail) {
-            if (info.msg == '完成訓練') {
+            if('err' in info){
+                errMsg.innerHTML = info.err;
+            }
+            else if (info.msg == '完成訓練') {
                 endTime = new Date().getTime();
                 var spendTime = parseInt((endTime - startTime) / 1000);
                 console.log(startTime, endTime, spendTime);
@@ -87,9 +91,12 @@
             .then(json => {
                 jobHome.innerHTML = json.job.home;
                 jobState.innerHTML = json.job.info;
+            })
+            .catch((error) => {
+                jobState.innerHTML = "發生錯誤：" + error;
+                console.error('Error:', error);
             });
     }
-
 
 </script>
 
