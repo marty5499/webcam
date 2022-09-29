@@ -6,7 +6,8 @@
 <h3>
     <div><br>
         JobName: <span id='jobHome'> 尚未指定</span><br>
-        JobState: <span id='jobState'> --</span>
+        JobState: <span id='jobState'> --</span><br>
+        ModelName: <span id='modelName'> --</span>
     </div>
 </h3>
 <h3>WebSocket: <span id='msg'> </span></h3>
@@ -57,8 +58,9 @@
 
     socket.onmessage = function (event) {
         var info = JSON.parse(event.data);
+        console.log("websocket resp:", info);
         if (info.notifyEmail == notifyEmail) {
-            if('err' in info){
+            if ('err' in info) {
                 errMsg.innerHTML = info.err;
             }
             else if (info.msg == '完成訓練') {
@@ -89,15 +91,16 @@
         })
             .then(response => response.json())
             .then(json => {
+                console.log(json);
                 jobHome.innerHTML = json.job.home;
                 jobState.innerHTML = json.job.info;
+                modelName.innerHTML = json.job.modelName;
             })
             .catch((error) => {
                 jobState.innerHTML = "發生錯誤：" + error;
                 console.error('Error:', error);
             });
     }
-
 </script>
 
 </html>
