@@ -15,9 +15,11 @@
 <h2><span id='progress'></span></h2>
 
 <script>
+    var host = 'train.nodered.vip';
+     host = 'kk.nodered.vip';
     var startTime, endTime;
     var notifyEmail = 'marty@kingkit101.com';
-    let socket = new WebSocket("wss://kk.nodered.vip/api/ws/recvMsg");
+    let socket = new WebSocket("wss://"+host+"/api/ws/recvMsg");
     let postData = {
         "name": "OyW",
         "modelType": "image",
@@ -78,7 +80,7 @@
         startTime = new Date().getTime();
         //btn.disabled = true;
 
-        const url = `https://kk.nodered.vip/api/models?hashkey=874389e56b2af78523547989eba72d43`
+        const url = 'https://'+host+'/api/models?hashkey=874389e56b2af78523547989eba72d43'
         let headers = {
             "Content-Type": "application/json",
             "Accept": "application/json",
