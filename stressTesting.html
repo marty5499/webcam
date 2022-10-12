@@ -1,0 +1,79 @@
+<html>
+
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.0/socket.io.min.js"></script>
+    <script src="stressTesting.js"></script>
+    <script src="models.js"></script>
+    <style>
+        .box {
+            border-style: dashed;
+            border-width: 1px;
+            border-left-width: 1px;
+            border-right-width: 1px;
+            border-color: red;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>模型訓練測試</h1>
+    <input id='num' style='height:42px;font-size:2em;width:50px;text-align:right' value='5'>
+    <button id='btn' onclick="trainModel()" disabled style="font-size:2em">Train</button>
+    <h3>WebSocket: <span id='msg'> </span></h3>
+    <h3 id="box">
+
+    </h3>
+    <h2><span id='progress'></span></h2>
+
+    <script>
+        var host = 'kk.nodered.vip';
+        let socket = new WebSocket("wss://" + host + "/api/ws/recvMsg");
+        const delay = ms => new Promise(res => setTimeout(res, ms))
+        var stressList = [];
+        function init() {
+            socket.onclose = function (e) {
+                console.log("close ! reconnect..");
+                init();
+            }
+
+            socket.onopen = function (e) {
+                btn.disabled = false;
+                msg.innerHTML = 'Connected.';
+            }
+
+            socket.onmessage = function (event) {
+                var info = JSON.parse(event.data);
+                //console.log("websocket resp:", info);
+                for (var i in stressList) {
+                    stressList[i].onmessage(info);
+                }
+            }
+        }
+
+        function startStress(url, model, modelName) {
+            var model = JSON.parse(JSON.stringify(model));
+            model.name = modelName;
+            var ss = new Stress(url, model);
+            stressList.push(ss);
+            ss.attach(box);
+            ss.start();
+        }
+
+        async function trainModel() {
+            var amt = num.value;
+            //*
+            btn.disabled = true;
+            var url = 'https://' + host + '/api/models?hashkey=874389e56b2af78523547989eba72d43'
+            for (var i = 1; i <= amt; i++) {
+                startStress(url, model01, i + "-" + Math.random());
+            }
+            btn.disabled = false;
+            //*/
+        }
+
+        init();
+    </script>
+</body>
+
+</html>
