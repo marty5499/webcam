@@ -1,27 +1,18 @@
-////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////
 let model01 = {
     "name": "test1",
     "modelType": "image",
     "shared": false,
     "classes": [
         {
-            "name": "O",
+            "name": "paper",
             "datasets": [
-                "0610a3f0-3ce3-11ed-af3e-d979f9dad077"
+                "21f88d30-e7ca-11ec-ab51-991f3728c5ae"
             ]
         },
         {
-            "name": "y",
+            "name": "cup",
             "datasets": [
-                "15816e00-3ce3-11ed-8920-354ab3c48fcd"
-            ]
-        },
-        {
-            "name": "W",
-            "datasets": [
-                "eb6bcf20-3ce2-11ed-926e-fbab9f69daec"
+                "ff25c1b0-e7c9-11ec-ab51-991f3728c5ae"
             ]
         }
     ],
@@ -31,79 +22,5 @@ let model01 = {
         "batchSizeFraction": 0.2,
         "epochs": 10
     },
-    "notifyEmail": 'marty@kingkit101.com'
+    "notifyEmail": 'wendy7559886@gmail.com'
 };
-////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////
-
-let model02 = {
-    "name": "test2",
-    "modelType": "image",
-    "shared": false,
-    "classes": [
-        {
-            "name": "O",
-            "datasets": [
-                "0610a3f0-3ce3-11ed-af3e-d979f9dad077"
-            ]
-        },
-        {
-            "name": "y",
-            "datasets": [
-                "15816e00-3ce3-11ed-8920-354ab3c48fcd"
-            ]
-        },
-        {
-            "name": "W",
-            "datasets": [
-                "eb6bcf20-3ce2-11ed-926e-fbab9f69daec"
-            ]
-        }
-    ],
-    "hyperParameters": {
-        "learningRate": 0.0002,
-        "denseUnits": 50,
-        "batchSizeFraction": 0.2,
-        "epochs": 10
-    },
-    "notifyEmail": 'marty@kingkit101.com'
-};
-
-////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////
-
-let model03 = {
-    "name": "test3",
-    "modelType": "image",
-    "shared": false,
-    "classes": [
-        {
-            "name": "O",
-            "datasets": [
-                "0610a3f0-3ce3-11ed-af3e-d979f9dad077"
-            ]
-        },
-        {
-            "name": "y",
-            "datasets": [
-                "15816e00-3ce3-11ed-8920-354ab3c48fcd"
-            ]
-        },
-        {
-            "name": "W",
-            "datasets": [
-                "eb6bcf20-3ce2-11ed-926e-fbab9f69daec"
-            ]
-        }
-    ],
-    "hyperParameters": {
-        "learningRate": 0.0002,
-        "denseUnits": 50,
-        "batchSizeFraction": 0.2,
-        "epochs": 10
-    },
-    "notifyEmail": 'marty@kingkit101.com'
-};
-

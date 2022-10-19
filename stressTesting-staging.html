@@ -64,10 +64,10 @@
             var amt = num.value;
             //*
             btn.disabled = true;
-            ownerId = 4
-            var url = 'https://' + host + '/api/models?hashkey=874389e56b2af78523547989eba72d43';
+            // ownerId = 4            
+            // var url = 'https://' + host + '/api/models?hashkey=874389e56b2af78523547989eba72d43';
             // ownerId = 1867
-            // var url = 'https://' + host + '/api/models?hashkey=8d43927b85886fa63586a3a4d6be68a5';
+            var url = 'https://' + host + '/api/models?hashkey=8d43927b85886fa63586a3a4d6be68a5';
             for (var i = 1; i <= amt; i++) {
                 startStress(url, model01, i + "-" + Math.random());
             }
