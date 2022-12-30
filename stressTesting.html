@@ -3,7 +3,7 @@
 <head>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.0/socket.io.min.js"></script>
     <script src="stressTesting.js"></script>
-    <script src="models.js"></script>
+    <script src="models.prod.js"></script>
     <style>
         .box {
             border-style: dashed;
@@ -62,19 +62,14 @@
 
         async function trainModel() {
             var amt = num.value;
-            //*
             btn.disabled = true;
-            ownerId = 4
-            var url = 'https://' + host + '/api/models?hashkey=874389e56b2af78523547989eba72d43';
-            // ownerId = 1867
-            // var url = 'https://' + host + '/api/models?hashkey=8d43927b85886fa63586a3a4d6be68a5';
+            ownerId = 473
+            var url = 'https://' + host + '/api/models?hashkey=d9e26735b59d7c3a3d784aeee4ba84d9';
             for (var i = 1; i <= amt; i++) {
                 startStress(url, model01, i + "-" + Math.random());
             }
             btn.disabled = false;
-            //*/
         }
-
         init();
     </script>
 </body>
